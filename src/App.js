@@ -1,5 +1,5 @@
-import './App.css'
 import {Component} from 'react'
+import './App.css'
 
 const choicesList = [
   {
@@ -20,46 +20,47 @@ const choicesList = [
 ]
 
 class App extends Component {
-  state = {score: 0, isStarted: false, rondom: null, guessed: null}
-
-  onClickIcon = event => {
-    const rondom = Math.floor(Math.random() * choicesList.length)
-    const guessed = event.target.id
-    this.setState({isStarted: true, guessed, rondom})
-    console.log(guessed)
+  state = {
+    score: 0,
+    isStarted: false,
+    random: null,
+    guessed: null,
+    result: null,
   }
 
-  onClickPlayAgain = () =>
-    this.setState({isStarted: false, guessed: null, rondom: null})
+  onClickIcon = event => {
+    const random = Math.floor(Math.random() * choicesList.length)
+    const guessed = parseInt(event.target.id, 10)
+    this.setState({isStarted: true, guessed, random}, this.determineResult)
+  }
+
+  onClickPlayAgain = () => {
+    this.setState({isStarted: false, guessed: null, random: null, result: null})
+  }
 
   determineResult = () => {
-    const {guessed, rondom} = this.state
-    console.log('guessed', guessed)
-    console.log('rondom', rondom)
+    const {guessed, random} = this.state
     let result
-    if (choicesList[guessed].id === choicesList[rondom].id) {
-      console.log('drawpassed')
+    if (choicesList[guessed].id === choicesList[random].id) {
       result = "IT'S DRAW"
+      this.setState({result})
     } else if (
       (choicesList[guessed].id === 'ROCK' &&
-        choicesList[rondom].id === 'SCISSORS') ||
+        choicesList[random].id === 'SCISSORS') ||
       (choicesList[guessed].id === 'SCISSORS' &&
-        choicesList[rondom].id === 'PAPER') ||
-      (choicesList[guessed].id === 'PAPER' && choicesList[rondom].id === 'ROCK')
+        choicesList[random].id === 'PAPER') ||
+      (choicesList[guessed].id === 'PAPER' && choicesList[random].id === 'ROCK')
     ) {
       result = 'YOU WON'
-      this.setState(prev => ({score: prev.score + 1}))
+      this.setState(prevState => ({score: prevState.score + 1, result}))
     } else {
       result = 'YOU LOSS'
-      this.setState(prev => ({score: prev.score - 1}))
-      console.log('losspassed')
+      this.setState(prevState => ({score: prevState.score - 1, result}))
     }
-    console.log('resultpassed')
-    return result
   }
 
   renderingResult = () => {
-    const {guessed, rondom} = this.state
+    const {guessed, random, result} = this.state
 
     return (
       <div className="resultContainer">
@@ -75,14 +76,14 @@ class App extends Component {
           <div className="resultIcon">
             <p>Opponent</p>
             <img
-              src={choicesList[rondom].imageUrl}
-              alt={choicesList[rondom].id}
+              src={choicesList[random].imageUrl}
+              alt={choicesList[random].id}
               className="iconSize"
             />
           </div>
         </div>
         <div className="playAgainContainer">
-          <h3>{this.determineResult()}</h3>
+          <h3>{result}</h3>
           <button type="button" onClick={this.onClickPlayAgain} className="btn">
             {' '}
             Play Again
@@ -123,7 +124,7 @@ class App extends Component {
   )
 
   render() {
-    const {isStarted} = this.state
+    const {isStarted, score} = this.state
     return (
       <div className="mainContainer">
         <div className="headerContainer">
@@ -134,7 +135,7 @@ class App extends Component {
           </div>
           <div className="scoreContainer">
             <p>Score</p>
-            <p>0</p>
+            <p>{score}</p>
           </div>
         </div>
         {isStarted ? this.renderingResult() : this.renderingGame()}
