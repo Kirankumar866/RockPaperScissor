@@ -19,6 +19,8 @@ body {
   align-items: center;
   height: 100vh;
   padding-top: 25px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 .headerContainer {
   display: flex;
@@ -43,6 +45,7 @@ body {
   width: 100px;
   height: 90px;
   border-radius: 10px;
+  font-weight: bold;
 }
 .titlesContainer {
   line-height: normal;
@@ -103,4 +106,37 @@ body {
   cursor: pointer;
   border-width: 0px;
   padding: 3px;
+}
+
+.rulesBtn {
+  background-color: white;
+  color: #223a5f;
+  align-self: flex-end;
+  border-width: 0px;
+  border-style: none;
+  border-radius: 3px;
+  width: 50px;
+  padding: 3px;
+  margin-top: 30px;
+  margin-right: 30px;
+}
+:hover.rulesBtn {
+  cursor: pointer;
+  background-color: azure;
+}
+.popImage {
+  width: 80%;
+  justify-self: center;
+}
+.popupImageContainer {
+  width: 500px;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: white;
+}
+.closeBtn {
+  align-self: flex-end;
 }

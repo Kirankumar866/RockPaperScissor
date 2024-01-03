@@ -1,5 +1,7 @@
 import {Component} from 'react'
 import './App.css'
+import {RiCloseLine} from 'react-icons/ri'
+import Popup from 'reactjs-popup'
 
 const choicesList = [
   {
@@ -123,6 +125,42 @@ class App extends Component {
     </div>
   )
 
+  renderingPopUp = () => (
+    <Popup
+      trigger={
+        <button
+          className="rulesBtn"
+          type="button"
+          onClick={() => console.log('clicked')}
+        >
+          {' '}
+          Rules{' '}
+        </button>
+      }
+      postion="top center"
+      nested
+      modal
+    >
+      {close => (
+        <div className="popupImageContainer">
+          <button
+            onClick={() => close()}
+            className="closeBtn"
+            aria-label="Close"
+            type="button"
+          >
+            <RiCloseLine />
+          </button>
+          <img
+            src="https://assets.ccbp.in/frontend/react-js/rock-paper-scissor/rules-image.png"
+            alt="rules"
+            className="popImage"
+          />
+        </div>
+      )}
+    </Popup>
+  )
+
   render() {
     const {isStarted, score} = this.state
     return (
@@ -139,6 +177,7 @@ class App extends Component {
           </div>
         </div>
         {isStarted ? this.renderingResult() : this.renderingGame()}
+        {this.renderingPopUp()}
       </div>
     )
   }
